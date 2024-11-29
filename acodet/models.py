@@ -256,7 +256,7 @@ def init_model(
         mod_obj.load_model()
     elif training_path:
         mod_obj.load_ckpt(training_path)
-    if not input_specs:
+    if False:#not input_specs:
         mod_obj.change_input_to_array()
     return mod_obj.model
 

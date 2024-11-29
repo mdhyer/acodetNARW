@@ -42,9 +42,10 @@ set_length_samples = session["context_window_in_seconds"] * SR
 set_length_without_stft_frame = set_length_samples - STFT_FRAME_LEN
 set_length_fixed = set_length_without_stft_frame % (N_TIME_BINS - 1)
 
-CONTEXT_WIN = int(
-    set_length_without_stft_frame - set_length_fixed + STFT_FRAME_LEN
-)
+#CONTEXT_WIN = int(
+#    set_length_without_stft_frame - set_length_fixed + STFT_FRAME_LEN
+#)
+CONTEXT_WIN = set_length_samples
 
 CONTEXT_WIN_S_CORRECTED = CONTEXT_WIN / SR
 
@@ -95,6 +96,8 @@ TOP_DIR_NAME = session["top_dir_name"]
 THRESH_LABEL = session["thresh_label"]
 
 #############  ANNOTATIONS  #####################################
+LOAD_ENTIRE_FILE = session['load_entire_file']
+EMPTY_TABLES_AS_ALL_NOISE = session['empty_tables_as_all_noise']
 DEFAULT_THRESH = session["default_threshold"]
 ANNOTATION_DF_FMIN = session["annotation_df_fmin"]
 ANNOTATION_DF_FMAX = session["annotation_df_fmax"]

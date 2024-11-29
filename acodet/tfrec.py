@@ -405,13 +405,23 @@ def run_data_pipeline(
 
 
 def spec():
-    return tf.keras.Sequential(
-        [
-            tf.keras.layers.Input([conf.CONTEXT_WIN]),
-            tf.keras.layers.Lambda(lambda t: tf.expand_dims(t, -1)),
-            front_end.MelSpectrogram(),
-        ]
-    )
+    if conf.MODEL_NAME == 'FP-32':
+        from acodet.shiu_speclayer_scratch import BatchedLinearSpecTFLayer
+        return tf.keras.Sequential(
+            [
+                tf.keras.layers.Input([conf.CONTEXT_WIN]),
+                tf.keras.layers.Lambda(lambda t: tf.expand_dims(t, -1)),
+                BatchedLinearSpecTFLayer(frame_length=256, frame_step=42),
+            ]
+        )
+    else:
+        return tf.keras.Sequential(
+            [
+                tf.keras.layers.Input([conf.CONTEXT_WIN]),
+                tf.keras.layers.Lambda(lambda t: tf.expand_dims(t, -1)),
+                front_end.MelSpectrogram(),
+            ]
+        )
 
 
 def prepare(

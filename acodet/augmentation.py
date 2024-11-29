@@ -174,6 +174,7 @@ def run_augment_pipeline(
                 ds_size=train_set_size,
                 **kwargs,
             )
+    # TODO add case to omit raw training data
     if mixup_augs:
         ds = ds.concatenate(ds_mu_n)
     if time_augs:

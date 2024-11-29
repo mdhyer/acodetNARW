@@ -1,0 +1,2 @@
+,filename,date from timestamp,number of predictions,average prediction value,number of predictions with thresh>0.8,number of predictions with thresh>0.9,computing time [s]
+1,humpback_test_file_20160215T111605Z.wav,2016-02-15,359,0.9554964,326,309,13.137701272964478

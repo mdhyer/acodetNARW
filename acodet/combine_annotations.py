@@ -206,6 +206,12 @@ def finalize_annotation(file, freq_time_crit=False, **kwargs):
     if freq_time_crit:
         ann = filter_out_high_freq_and_high_transient(ann)
 
+    if len(ann) == 0:
+        for col in ann.columns:
+            ann.loc[0, col] = 0
+        ann.loc[0, 'Selection'] = 1
+        ann.loc[0, 'filename'] = get_corresponding_sound_file(file)
+        ann.loc[0, 'End Time (s)'] = 1
     ann_explicit_noise = ann.loc[ann["label"] == "explicit 0", :]
     ann_explicit_noise["label"] = 0
     ann = ann.drop(ann.loc[ann["label"] == "explicit 0"].index)

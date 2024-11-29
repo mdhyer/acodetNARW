@@ -1,7 +1,6 @@
 absl-py==2.1.0
 altair==5.5.0
 altgraph==0.17.4
-array_record==0.5.1
 astunparse==1.6.3
 attrs==24.2.0
 audioread==3.0.1
@@ -95,9 +94,6 @@ pyinstaller==6.11.1
 pyinstaller-hooks-contrib==2024.10
 pyparsing==3.2.0
 pyproject_hooks==1.2.0
-PyQt5==5.15.11
-PyQt5-Qt5==5.15.15
-PyQt5_sip==12.15.0
 python-dateutil==2.9.0.post0
 pytz==2024.2
 PyYAML==6.0.2
@@ -125,13 +121,6 @@ tenacity==9.0.0
 tensorboard==2.15.2
 tensorboard-data-server==0.7.2
 tensorflow==2.15.0
-tensorflow-addons==0.23.0
-tensorflow-datasets==4.9.7
-tensorflow-estimator==2.15.0
-tensorflow-intel==0.0.1
-tensorflow-io==0.37.1
-tensorflow-io-gcs-filesystem==0.37.1
-tensorflow-metadata==1.16.1
 termcolor==2.5.0
 threadpoolctl==3.5.0
 toml==0.10.2

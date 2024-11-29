@@ -229,15 +229,23 @@ def cntxt_wndw_arr(
     times_n
         time list for noise
     """
-    duration = annotations["end"].iloc[-1] + conf.CONTEXT_WIN / conf.SR
+    if conf.LOAD_ENTIRE_FILE:
+        duration = None
+    else:
+        duration = annotations["end"].iloc[-1] + conf.CONTEXT_WIN / conf.SR
     audio = load_audio(file, duration=duration)
+    # TODO if audio length is under context win length, np.pad mit mean
 
     segs, times = [], []
     for _, row in annotations.iterrows():
+        if row.label == 0:
+            continue
         num_windows = round(
             (row.end - row.start) / (conf.CONTEXT_WIN / conf.SR) - 1
         )
-        num_windows = num_windows or 1
+        if num_windows < 1:
+            num_windows = 1
+        # num_windows = num_windows or 1
         for i in range(
             num_windows
         ):  # TODO fuer grosse annotationen mehrere fenster erzeugen
@@ -332,15 +340,22 @@ def return_inbetween_noise_arrays(
         start times of each context window
     """
     noise_ar, times = list(), list()
-    for ind, num_wndws in enumerate(wins_bet_calls(annotations)):
+    if conf.EMPTY_TABLES_AS_ALL_NOISE:
+        window_array = [int(len(audio) / conf.CONTEXT_WIN)]
+    else:
+        window_array = wins_bet_calls(annotations)
+    for ind, num_wndws in enumerate(window_array):
         if num_wndws < 1:
             continue
 
         for window_ind in range(num_wndws):
-            beg = (
-                int(annotations.end.iloc[ind] * conf.SR)
-                + conf.CONTEXT_WIN * window_ind
-            )
+            if conf.EMPTY_TABLES_AS_ALL_NOISE:
+                beg = 0 + conf.CONTEXT_WIN * window_ind
+            else:
+                beg = (
+                    int(annotations.end.iloc[ind] * conf.SR)
+                    + conf.CONTEXT_WIN * window_ind
+                )
             end = beg + conf.CONTEXT_WIN
             noise_ar.append(audio[beg:end])
             times.append(beg)
@@ -614,7 +629,7 @@ def create_annotation_df(
         if callbacks is not None and ind == 0:
             callbacks = callbacks(**kwargs)
         preds = model.predict(
-            window_data_for_prediction(audio), callbacks=callbacks
+            tf.expand_dims(window_data_for_prediction(audio), -1), callbacks=callbacks
         )
         df = create_Raven_annotation_df(preds, ind)
         annots = pd.concat([annots, df], ignore_index=True)
