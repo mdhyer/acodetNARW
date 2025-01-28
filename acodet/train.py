@@ -105,7 +105,7 @@ def run_training(
         seed,
         spec_aug=spec_aug,
         time_start=time_start,
-        plot=False,
+        plot=True,  # False,
         random=False,
     )
     train_data = prepare(

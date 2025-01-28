@@ -414,6 +414,15 @@ def spec():
                 BatchedLinearSpecTFLayer(frame_length=256, frame_step=42),
             ]
         )
+    elif conf.MODEL_NAME == 'HUMPBACK-FP-32':
+        from acodet.shiu_speclayer_scratch import HumpbackLayer
+        return tf.keras.Sequential(
+            [
+                tf.keras.layers.Input([conf.CONTEXT_WIN]),
+                tf.keras.layers.Lambda(lambda t: tf.expand_dims(t, -1)),
+                HumpbackLayer(frame_length=256, frame_step=42),
+            ]
+        )
     else:
         return tf.keras.Sequential(
             [

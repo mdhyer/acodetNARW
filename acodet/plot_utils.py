@@ -136,6 +136,7 @@ def plot_sample_spectrograms(
         sample = dataset
 
     max_freq_bin = 128 // (conf.SR // 2000)
+    # max_freq_bin = 64 //  (conf.SR // 1000)  # NARW model
 
     fmin = sr / 2 / next(iter(sample))[0].numpy().shape[0]
     fmax = sr / 2 / next(iter(sample))[0].numpy().shape[0] * max_freq_bin
@@ -144,7 +145,7 @@ def plot_sample_spectrograms(
     for i, (aud, *lab) in enumerate(sample):
         if i == r * c:
             break
-        ar = aud.numpy()[:, 1:max_freq_bin].T
+        ar = aud.numpy()[:, 1:max_freq_bin].T.squeeze()
         axes[i // r][i % c].imshow(
             ar, origin="lower", interpolation="nearest", aspect="auto"
         )

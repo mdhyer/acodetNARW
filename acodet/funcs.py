@@ -148,7 +148,7 @@ def load_audio(file, channel=0, **kwargs) -> np.ndarray:
             return
         return audio_flat
     except:
-        print("File is corrputed and can't be loaded.")
+        print("File %s is corrputed and can't be loaded." % file)
         return
 
 
@@ -233,6 +233,9 @@ def cntxt_wndw_arr(
         duration = None
     else:
         duration = annotations["end"].iloc[-1] + conf.CONTEXT_WIN / conf.SR
+    if 'empty' in file:
+        print('here')
+    print(file)
     audio = load_audio(file, duration=duration)
     # TODO if audio length is under context win length, np.pad mit mean
 
